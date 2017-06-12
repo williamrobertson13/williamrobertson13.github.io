@@ -1,5 +1,5 @@
-var canvasEl, ctx;
-var NUMBER_OF_PARTICLES = 60
+var canvasEl, ctx, partyBtn;
+var NUMBER_OF_PARTICLES = 35
 var COLORS = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C']
 
 function createParticle(x, y) {
@@ -92,7 +92,16 @@ function animateParticles(x, y) {
   });
 }
 
+function shootFireworks() {
+  animateParticles(1100, 300)
+  animateParticles(1200, 200)
+  animateParticles(200, 100)
+  animateParticles(1300, 100)
+  animateParticles(100, 1300)
+}
+
 window.addEventListener('load', function() {
+  partyBtn = document.getElementById('party-popper')
   canvasEl = document.getElementById('firework-canvas')
   ctx = canvasEl.getContext('2d')
 
@@ -103,6 +112,8 @@ window.addEventListener('load', function() {
     canvasEl.style.height = window.innerHeight + 'px'
     ctx.scale(2, 2)
   }, false)
+
+ partyBtn.addEventListener('click', shootFireworks)
 
   var animation = anime({
     duration: Infinity,
@@ -120,12 +131,8 @@ window.addEventListener('load', function() {
     animateParticles(100, 1300)
 
     var links = document.querySelectorAll('a')
-
-   // setTimeout(function() {
-      for (var i = 0, len = links.length; i < len; i++) {
-        links[i].classList.add('color');
-      }
-    //}, 1000)
-
+    for (var i = 0, len = links.length; i < len; i++) {
+      links[i].classList.add('color');
+    }
   }, 150)
 }, false)
