@@ -1,4 +1,4 @@
-var canvasEl, ctx, partyBtn
+var canvasEl, ctx
 var NUMBER_OF_PARTICLES = 40
 var COLORS = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C']
 var TEXT_COLORS = ['#FF1461', '#18C892', '#5A87FF']
@@ -105,7 +105,8 @@ window.addEventListener('load', function() {
     return
   }
 
-  partyBtn = document.getElementById('party-popper')
+  var partyBtn = document.getElementById('party-popper')
+  var resumeLink = document.getElementById('resume')
   canvasEl = document.getElementById('firework-canvas')
   ctx = canvasEl.getContext('2d')
 
@@ -118,6 +119,8 @@ window.addEventListener('load', function() {
   }, false)
 
   partyBtn.addEventListener('click', function() {
+    ga('send', 'event', 'Party Button', 'Click', 'Fireworks')
+
     shootFireworks(anime.random(2, 6))
     var color = TEXT_COLORS[anime.random(0, TEXT_COLORS.length - 1)]
 
@@ -125,6 +128,10 @@ window.addEventListener('load', function() {
     for (var i = 0, len = links.length; i < len; i++) {
       links[i].style.color = color
     }
+  })
+
+  resume.addEventListener('click', function() {
+    ga('send', 'event', 'Resume Link', 'Click', 'Resume')
   })
 
   var animation = anime({
