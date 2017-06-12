@@ -1,6 +1,7 @@
-var canvasEl, ctx, partyBtn;
-var NUMBER_OF_PARTICLES = 35
+var canvasEl, ctx, partyBtn
+var NUMBER_OF_PARTICLES = 40
 var COLORS = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C']
+var TEXT_COLORS = ['#FF1461', '#18C892', '#5A87FF']
 
 function createParticle(x, y) {
   var particle = {}
@@ -22,7 +23,7 @@ function createParticle(x, y) {
 
 function setParticleDirection(particle) {
   var angle = anime.random(0, 360) * Math.PI / 180
-  var value = anime.random(400, 900)
+  var value = anime.random(80, 600)
   var radius = [-1, 1][anime.random(0, 1)] * value
 
   return {
@@ -92,15 +93,18 @@ function animateParticles(x, y) {
   });
 }
 
-function shootFireworks() {
-  animateParticles(1100, 300)
-  animateParticles(1200, 200)
-  animateParticles(200, 100)
-  animateParticles(1300, 100)
-  animateParticles(100, 1300)
+function shootFireworks(numFireworks) {
+  for (var i = 0; i < numFireworks; i++) {
+    animateParticles(anime.random(0, window.innerWidth), anime.random(0, window.innerHeight))
+  }
 }
 
 window.addEventListener('load', function() {
+  if (document.documentElement.clientWidth < 961) {
+    // Don't want to do any of this stuff for mobile
+    return
+  }
+
   partyBtn = document.getElementById('party-popper')
   canvasEl = document.getElementById('firework-canvas')
   ctx = canvasEl.getContext('2d')
@@ -113,7 +117,15 @@ window.addEventListener('load', function() {
     ctx.scale(2, 2)
   }, false)
 
- partyBtn.addEventListener('click', shootFireworks)
+  partyBtn.addEventListener('click', function() {
+    shootFireworks(anime.random(2, 6))
+    var color = TEXT_COLORS[anime.random(0, TEXT_COLORS.length - 1)]
+
+    var links = document.querySelectorAll('a')
+    for (var i = 0, len = links.length; i < len; i++) {
+      links[i].style.color = color
+    }
+  })
 
   var animation = anime({
     duration: Infinity,
@@ -124,15 +136,7 @@ window.addEventListener('load', function() {
 
   setTimeout(function() {
     animation.play()
-    animateParticles(1100, 300)
-    animateParticles(1200, 200)
-    animateParticles(200, 100)
-    animateParticles(1300, 100)
-    animateParticles(100, 1300)
 
-    var links = document.querySelectorAll('a')
-    for (var i = 0, len = links.length; i < len; i++) {
-      links[i].classList.add('color');
-    }
-  }, 150)
+    shootFireworks(3)
+  }, 200)
 }, false)
